@@ -1,0 +1,55 @@
+//problemas de utf-8
+
+digraph CC {
+	label="CC - UFCG";
+	node [style=filled,color=grey, shape=box];
+	ranksep=3;
+	ratio=auto;
+	subgraph cluster_0 {
+		style=filled;
+		color=lightgrey;
+		label="PRIMEIRO PERIODO";
+		c1 [label="Calculo I"];
+		vet [label="Geo. Anal. e Alg. Vet."];
+		ic [label="Intro. a Computacao"];
+		p1 [label="Prog I"];
+		lp1 [label="Lab Prog I"];
+	}
+	subgraph P_2 {
+		color=black;
+		label="SEGUNDO PERIODO";
+		c2 [label="Calculo 2"];
+		disc [label="Matematica Discreta"];
+		lp2 [label="Lab Prog II"];
+		p2 [label="Prog II"];
+		tg [label="Teoria dos Grafos"];
+		fc [label="Fisica Classica"];
+	}
+	subgraph P_3 {
+		style=filled;
+		color=lightgrey;
+		label="TERCEIRO PERÍODO"
+		prob [label="Probabilidade e Estatistica"];
+		tc [label="Teoria da Computacao"];
+		eda [label="Estrutura de Dados e Alg."];
+		leda [label="Lab. Estrutura de Dados e Alg."];
+		fm [label="Fisica Moderna"];
+		gi [label="Gerencia da Info."];
+	}
+	c1 -> fc
+	c1 -> c2
+	vet -> fc
+	p1 -> p2
+	p1 -> tg
+	ic -> p2
+	ic -> lp2
+	lp1 -> lp2
+
+	fc -> fm
+	c2 -> fm
+	disc -> tc
+	p2 -> eda
+	tg -> tc
+	tg -> eda
+	lp2 -> leda
+}
