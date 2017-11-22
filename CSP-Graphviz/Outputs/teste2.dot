@@ -1,0 +1,7 @@
+digraph {
+a [label="a"]
+b [label="b"]
+stop [label="STOP", style=filled, fillcolor=red]
+a -> b
+b -> stop
+}

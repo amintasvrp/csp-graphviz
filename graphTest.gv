@@ -1,8 +1,0 @@
-graph G {
-	A, B [shape= box, color=green, label="VERDE \n CLARO"]; 
-	C [shape= triangle, style=filled,  color =red, label="VERMELHO"];
-	A -- B [label="1", style=dotted];
-	B -- C [label="2"];
-	B -- A [label="3"];
-	C -- A [label="4"];
-}

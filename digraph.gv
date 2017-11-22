@@ -1,5 +1,0 @@
-digraph g {
-	pessoa1 [label="João", shape=box, style=filled, color=blue, height=0.5] ;
-	pessoa2 [label="Mariá", style=filled, color=pink];
-	pessoa1 -> pessoa2 [label="Gosta de"]
-}
