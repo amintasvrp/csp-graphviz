@@ -1,7 +1,0 @@
-digraph {
-a [label="a"]
-b [label="b"]
-skip [label="SKIP", style=filled, fillcolor=blue]
-a -> b
-b -> skip
-}

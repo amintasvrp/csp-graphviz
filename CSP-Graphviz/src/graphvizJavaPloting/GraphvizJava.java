@@ -12,10 +12,10 @@ public class GraphvizJava {
         String arquivoDot = "Outputs/contraExemplo.dot";
         
         //Comando dot
-      	String graphDir = "dot.exe -Tpng ";
+      	String graphDir = "dot.exe -Tsvg ";
               
         //Arquivo de saída
-        String arquivoPNG = "Outputs/contraExemplo.png"; 
+        String arquivoPNG = "Outputs/contraExemplo.svg"; 
         
         // Iterando sobre a lista de processos, gerando nodos e arestas
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(arquivoDot));
