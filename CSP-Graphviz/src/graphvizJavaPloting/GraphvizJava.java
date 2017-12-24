@@ -8,39 +8,53 @@ public class GraphvizJava {
 	public GraphvizJava() {}
 
 	public void ploting(String[] nodes) throws IOException {
-		//Arquivo com o código DOT
-        String arquivoDot = "Outputs/contraExemplo.dot";
-        
-        //Comando dot
-      	String graphDir = "dot.exe -Tsvg ";
+		//Arquivo JS com o código do grafo
+        String arquivoJson = "Outputs/contraExemploGrafo.json";
               
-        //Arquivo de saída
-        String arquivoPNG = "Outputs/contraExemplo.svg"; 
-        
-        // Iterando sobre a lista de processos, gerando nodos e arestas
-		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(arquivoDot));
-		buffWrite.append("digraph {"+"\n");
-		for (String node : nodes) {
-			if (node.equalsIgnoreCase("skip")) {
-				buffWrite.append(node + " [label=\"SKIP\", style=filled, fillcolor=blue]"+"\n");								
-			} else if (node.equalsIgnoreCase("stop")) {
-				buffWrite.append(node + " [label=\"STOP\", style=filled, fillcolor=red]"+"\n");
-			} else {
-				buffWrite.append(node + " [label=\"" + node + "\"]"+"\n");
-			}
+        // Iterando sobre a lista de processos, gerando os nodos:
+		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(arquivoJson));
+		
+		buffWrite.append("{   \"nodes\":[" + "\n");
+		
+		int penultimateIndex = nodes.length - 2;
+		int lastIndex = nodes.length - 1;
+		
+		for (int i = 0; i < lastIndex; i++) {
+			String node = destacarSkipStop(nodes[i]);
+			buffWrite.append("    {\"name\":\"" + node + "\"}," + "\n");
 		}
 		
-		for (int i = 0; i < nodes.length - 1; i++) {
-			buffWrite.append(nodes[i] + " -> " + nodes[i+1] + "\n");
+		String lastNode = destacarSkipStop(nodes[lastIndex]);
+		buffWrite.append("    {\"name\":\"" + lastNode + "\"}" + "\n");
+		buffWrite.append("    ]," + "\n");
+		
+		// Iterando sobre a lista de processos, gerando as arestas:		
+		buffWrite.append("    \"links\":[" + "\n");
+		
+		for (int i = 0; i < penultimateIndex; i++) {
+			int actualIndex = i;
+			int nextIndex = i + 1;
+			buffWrite.append("    {\"source\":" + actualIndex + ",\"target\":" + nextIndex + "},"+ "\n");
 		}
-		buffWrite.append("}"+"\n");
+				
+		buffWrite.append("    {\"source\":" + penultimateIndex + ",\"target\":" + lastIndex + "}"+ "\n");
+		
+		
+		buffWrite.append("    ]"+"\n");
+		buffWrite.append("}");
 		buffWrite.close();
 		
-		//Gerando grafo
-		Runtime rt = Runtime.getRuntime();
-        
-        String cmdString = graphDir + arquivoDot + " -o " + arquivoPNG;
-        rt.exec(cmdString);
 	}
+	
+	private String destacarSkipStop(String node) {
+		String result = node;
+		if (node.equalsIgnoreCase("SKIP")) {
+			result = "SKIP";
+		} else if (node.equalsIgnoreCase("STOP")) {
+			result = "STOP";
+		}
+		return result;
+	}
+	
 
 }
