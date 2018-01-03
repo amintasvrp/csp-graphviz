@@ -6,9 +6,9 @@ public class Tests {
 
 	public static void main(String[] args) throws IOException {
 		String[] arrayOfNodes = new String[3];
-		arrayOfNodes[0] = "chA";
-		arrayOfNodes[1] = "chB";
-		arrayOfNodes[2] = "chA";
+		arrayOfNodes[0] = "A";
+		arrayOfNodes[1] = "B";
+		arrayOfNodes[2] = "STOP";
 		GraphvizJava gv = new GraphvizJava();
 		gv.ploting(arrayOfNodes);
 	}

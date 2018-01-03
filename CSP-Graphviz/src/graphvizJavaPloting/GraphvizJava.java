@@ -3,13 +3,14 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class GraphvizJava {
+public class GraphvizJava implements Plottable {
 	
 	public GraphvizJava() {}
-
+	
+	@Override
 	public void ploting(String[] nodes) throws IOException {
 		//Arquivo JS com o código do grafo
-        String arquivoJson = "Outputs/contraExemploGrafo.json";
+        String arquivoJson = "Outputs/counterExampleGraph.json";
               
         // Iterando sobre a lista de processos, gerando os nodos:
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(arquivoJson));
@@ -21,11 +22,11 @@ public class GraphvizJava {
 		
 		for (int i = 0; i < lastIndex; i++) {
 			String node = destacarSkipStop(nodes[i]);
-			buffWrite.append("    {\"name\":\"" + node + "\"}," + "\n");
+			buffWrite.append("    {\"name\":\"" + node + "\",\"id\":"+ i +"}," + "\n");
 		}
 		
 		String lastNode = destacarSkipStop(nodes[lastIndex]);
-		buffWrite.append("    {\"name\":\"" + lastNode + "\"}" + "\n");
+		buffWrite.append("    {\"name\":\"" + lastNode + "\",\"id\":"+ lastIndex +"}" + "\n");
 		buffWrite.append("    ]," + "\n");
 		
 		// Iterando sobre a lista de processos, gerando as arestas:		
