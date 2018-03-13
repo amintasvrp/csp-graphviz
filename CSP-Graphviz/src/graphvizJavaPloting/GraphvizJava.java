@@ -1,5 +1,6 @@
 package graphvizJavaPloting;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -11,6 +12,11 @@ public class GraphvizJava implements Plottable {
 	public void ploting(String[] nodes) throws IOException {
 		//Arquivo JS com o código do grafo
         String arquivoJson = "Outputs/counterExampleGraph.json";
+        
+        File grafo = new File(arquivoJson);
+        if(!grafo.exists()){
+        	grafo.createNewFile();
+        }
               
         // Iterando sobre a lista de processos, gerando os nodos:
 		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(arquivoJson));
