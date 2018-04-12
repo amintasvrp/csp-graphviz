@@ -27,13 +27,21 @@ public class GraphvizJava implements Plottable {
 		int lastIndex = nodes.length - 1;
 		
 		for (int i = 0; i < lastIndex; i++) {
-			String node = destacarSkipStop(nodes[i]);
-			buffWrite.append("    {\"name\":\"" + node + "\",\"id\":"+ i +"}," + "\n");
+			nodes[i] = destacarSkipStop(nodes[i]);
+			buffWrite.append("    {\"name\":\"" + nodes[i] + "\",\"id\":\""+ nodes[i] + i +"\"}," + "\n");
 		}
 		
-		String lastNode = destacarSkipStop(nodes[lastIndex]);
-		buffWrite.append("    {\"name\":\"" + lastNode + "\",\"id\":"+ lastIndex +"}" + "\n");
-		buffWrite.append("    ]," + "\n");
+		nodes[lastIndex] = destacarSkipStop(nodes[lastIndex]);
+		String lastNode = nodes[lastIndex];
+		
+		if (lastNode.equals("SKIP")) {
+			buffWrite.append("    {\"name\":\"" + "SKIP" + "\",\"id\":\""+ "SKIP" + lastIndex +"\"}," + "\n");
+			buffWrite.append("    {\"name\":\"" + "STOP" + "\",\"id\":\""+ "STOP" + lastIndex +"\"}" + "\n");
+			buffWrite.append("    ]," + "\n");
+		} else {
+			buffWrite.append("    {\"name\":\"" + lastNode + "\",\"id\":\""+ lastNode + lastIndex +"\"}" + "\n");
+			buffWrite.append("    ]," + "\n");
+		}		
 		
 		// Iterando sobre a lista de processos, gerando as arestas:		
 		buffWrite.append("    \"links\":[" + "\n");
@@ -41,11 +49,17 @@ public class GraphvizJava implements Plottable {
 		for (int i = 0; i < penultimateIndex; i++) {
 			int actualIndex = i;
 			int nextIndex = i + 1;
-			buffWrite.append("    {\"source\":" + actualIndex + ",\"target\":" + nextIndex + "},"+ "\n");
+			buffWrite.append("    {\"source\":\"" + nodes[actualIndex] + actualIndex + "\",\"target\":\"" + nodes[nextIndex] + nextIndex + "\"},"+ "\n");
 		}
-				
-		buffWrite.append("    {\"source\":" + penultimateIndex + ",\"target\":" + lastIndex + "}"+ "\n");
 		
+		String penultimateNode = nodes[penultimateIndex];
+		
+		if (lastNode.equals("SKIP")) {
+			buffWrite.append("    {\"source\":\"" + penultimateNode + penultimateIndex + "\",\"target\":\"" + lastNode + lastIndex + "\"},"+ "\n");
+			buffWrite.append("    {\"source\":\"" + "SKIP" + lastIndex + "\",\"target\":\"" + "STOP" + lastIndex + "\"}"+ "\n");
+		} else {
+			buffWrite.append("    {\"source\":\"" + penultimateNode + penultimateIndex + "\",\"target\":\"" + lastNode + lastIndex + "\"}"+ "\n");
+		}		
 		
 		buffWrite.append("    ]"+"\n");
 		buffWrite.append("}");

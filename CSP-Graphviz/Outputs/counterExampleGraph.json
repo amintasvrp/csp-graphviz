@@ -1,0 +1,12 @@
+{   "nodes":[
+    {"name":"A","id":"A0"},
+    {"name":"B","id":"B1"},
+    {"name":"SKIP","id":"SKIP2"},
+    {"name":"STOP","id":"STOP2"}
+    ],
+    "links":[
+    {"source":"A0","target":"B1"},
+    {"source":"B1","target":"SKIP2"},
+    {"source":"SKIP2","target":"STOP2"}
+    ]
+}

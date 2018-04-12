@@ -8,7 +8,7 @@ public class Tests {
 		String[] arrayOfNodes = new String[3];
 		arrayOfNodes[0] = "A";
 		arrayOfNodes[1] = "B";
-		arrayOfNodes[2] = "STOP";
+		arrayOfNodes[2] = "skip";
 		GraphvizJava gv = new GraphvizJava();
 		gv.ploting(arrayOfNodes);
 	}

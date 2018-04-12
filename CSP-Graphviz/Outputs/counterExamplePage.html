@@ -78,7 +78,7 @@
             .attrs({
                 'class': 'edgelabel',
                 'id': function (d, i) {return 'edgelabel' + i},
-                'font-size': 10,
+                'font-size': 16,
                 'fill': '#aaa'
             });
 
@@ -87,7 +87,14 @@
             .style("text-anchor", "middle")
             .style("pointer-events", "none")
             .attr("startOffset", "50%")
-            .text(function (d) {return d.type});
+            .text(function (d) {
+                var sourceName = d.source.substring(0,(d.source.length -1));
+                if (sourceName == "SKIP") {
+                    return "tick";
+                } else {
+                    return sourceName;
+                }
+            });
 
         node = svg.selectAll(".node")
             .data(nodes)
@@ -102,19 +109,25 @@
 
         node.append("circle")
             .attr("r", 5)
-            .style("fill", function (d, i) {
-            	if (d.name == "SKIP") {
- 					return "blue";
-            	} else if (d.name == "STOP") {
-            		return "red";
+            .style("fill", function (d) {
+            	if (d.name == "STOP") {
+ 					return "red";
             	} else {
-            		return "green";
+            		return "grey";
             	}
             });
 
         node.append("text")
             .attr("dy", -3)
-            .text(function (d) {return d.name;});
+            .text(function (d) {
+                if (d.name == "STOP") {
+                    return "STOP";
+                } else if(d.name == "SKIP"){
+                    return "SKIP";
+                } else {
+                    return "";
+                }
+            });
 
         simulation
             .nodes(nodes)
