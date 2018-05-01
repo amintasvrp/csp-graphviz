@@ -104,7 +104,6 @@
             .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
-                    //.on("end", dragended)
             );
 
         node.append("circle")
@@ -129,7 +128,7 @@
                 }
             });
 
-        simulation
+       simulation
             .nodes(nodes)
             .on("tick", ticked);
 

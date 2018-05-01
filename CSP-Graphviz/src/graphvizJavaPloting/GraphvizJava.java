@@ -38,10 +38,14 @@ public class GraphvizJava implements Plottable {
 			buffWrite.append("    {\"name\":\"" + "SKIP" + "\",\"id\":\""+ "SKIP" + lastIndex +"\"}," + "\n");
 			buffWrite.append("    {\"name\":\"" + "STOP" + "\",\"id\":\""+ "STOP" + lastIndex +"\"}" + "\n");
 			buffWrite.append("    ]," + "\n");
-		} else {
-			buffWrite.append("    {\"name\":\"" + lastNode + "\",\"id\":\""+ lastNode + lastIndex +"\"}" + "\n");
+		} else if (!lastNode.equals("STOP")) {
+			buffWrite.append("    {\"name\":\"" + lastNode + "\",\"id\":\""+ lastNode + lastIndex +"\"}," + "\n");
+			buffWrite.append("    {\"name\":\"" + "ENDLINE" + "\",\"id\":\""+ "ENDLINE" + lastIndex +"\"}" + "\n");
 			buffWrite.append("    ]," + "\n");
-		}		
+		} else {
+			buffWrite.append("    {\"name\":\"" + "STOP" + "\",\"id\":\""+ "STOP" + lastIndex +"\"}" + "\n");
+			buffWrite.append("    ]," + "\n");
+		}
 		
 		// Iterando sobre a lista de processos, gerando as arestas:		
 		buffWrite.append("    \"links\":[" + "\n");
@@ -57,9 +61,12 @@ public class GraphvizJava implements Plottable {
 		if (lastNode.equals("SKIP")) {
 			buffWrite.append("    {\"source\":\"" + penultimateNode + penultimateIndex + "\",\"target\":\"" + lastNode + lastIndex + "\"},"+ "\n");
 			buffWrite.append("    {\"source\":\"" + "SKIP" + lastIndex + "\",\"target\":\"" + "STOP" + lastIndex + "\"}"+ "\n");
+		} else if (!lastNode.equals("STOP")) {
+			buffWrite.append("    {\"source\":\"" + penultimateNode + penultimateIndex + "\",\"target\":\"" + lastNode + lastIndex + "\"},"+ "\n");
+			buffWrite.append("    {\"source\":\"" + lastNode + lastIndex + "\",\"target\":\"" + "ENDLINE" + lastIndex + "\"}"+ "\n");
 		} else {
 			buffWrite.append("    {\"source\":\"" + penultimateNode + penultimateIndex + "\",\"target\":\"" + lastNode + lastIndex + "\"}"+ "\n");
-		}		
+		}
 		
 		buffWrite.append("    ]"+"\n");
 		buffWrite.append("}");
@@ -69,7 +76,7 @@ public class GraphvizJava implements Plottable {
 	
 	private String destacarSkipStop(String node) {
 		String result = node;
-		if (node.equalsIgnoreCase("SKIP")) {
+		if (node.equalsIgnoreCase("tick")) {
 			result = "SKIP";
 		} else if (node.equalsIgnoreCase("STOP")) {
 			result = "STOP";
