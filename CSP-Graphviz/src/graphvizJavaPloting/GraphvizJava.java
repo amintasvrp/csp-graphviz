@@ -7,9 +7,12 @@ import java.io.IOException;
 public class GraphvizJava implements Plottable {
 	
 	private String diretorioJson;
-
-	public GraphvizJava() {
-		this.diretorioJson = "";
+	private String nomeDoHtml;
+	
+	public GraphvizJava(String diretorio, String nomeDoHtml) throws IOException {
+		this.diretorioJson = diretorio + "/counterExampleGraph.json";
+		this.nomeDoHtml = nomeDoHtml;
+		createhtmlpage(diretorio, nomeDoHtml);
 	}
 	
 	@Override
@@ -102,7 +105,7 @@ public class GraphvizJava implements Plottable {
 		  }
 		}
 
-		public String htmlContent(String directoryJson) {
+	private String htmlContent(String directoryJson) {
 		  return "<!DOCTYPE html>\r\n" + 
 						"<html lang=\"en\">\r\n" + 
 						"<head>\r\n" + 
@@ -148,7 +151,7 @@ public class GraphvizJava implements Plottable {
 						"        .force(\"charge\", d3.forceManyBody())\r\n" + 
 						"        .force(\"center\", d3.forceCenter(width / 2, height / 2));\r\n" + 
 						"\r\n" + 
-		                                "    d3.json("+ directoryJson +", function (error, graph) {\r\n" +
+		                                "    d3.json(\"counterExampleGraph.json\", function (error, graph) {\r\n" +
 		                                "    if (error) throw error;\r\n" +
 		                                "    update(graph.links, graph.nodes);\r\n" +
 		                                "})\r\n" +
@@ -291,8 +294,16 @@ public class GraphvizJava implements Plottable {
 			return diretorioJson;
 		}
 
-		public void setDiretorioJson(String diretorioJson) {
-			this.diretorioJson = diretorioJson + "/counterExampleGraph.json";
+		public void setDiretorioJson(String diretorio) {
+			this.diretorioJson = diretorio + "/counterExampleGraph.json";
+		}
+
+		public String getNomeDoHtml() {
+			return nomeDoHtml;
+		}
+
+		public void setNomeDoHtml(String nomeDoHtml) {
+			this.nomeDoHtml = nomeDoHtml;
 		}
 
 }

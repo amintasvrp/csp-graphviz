@@ -8,8 +8,8 @@ public class Tests {
 		String[] arrayOfNodes = new String[3];
 		arrayOfNodes[0] = "A";
 		arrayOfNodes[1] = "B";
-		arrayOfNodes[2] = "C";
-		GraphvizJava gv = new GraphvizJava();
+		arrayOfNodes[2] = "SKIP";
+		GraphvizJava gv = new GraphvizJava("Outputs", "/pagina.html");
 		gv.ploting(arrayOfNodes);
 	}
 
