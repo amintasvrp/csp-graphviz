@@ -1,16 +1,19 @@
 package graphvizJavaPloting;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Tests {
 
 	public static void main(String[] args) throws IOException {
-		String[] arrayOfNodes = new String[3];
-		arrayOfNodes[0] = "A";
-		arrayOfNodes[1] = "B";
-		arrayOfNodes[2] = "SKIP";
+		ArrayList<String> nodes = new ArrayList<>();
+		nodes.add("A");
+		nodes.add("tick");
+		//nodes.add("C");
+		//nodes.add("D");
+		//nodes.add("E");
 		GraphvizJava gv = new GraphvizJava("Outputs", "/pagina.html");
-		gv.ploting(arrayOfNodes);
+		gv.ploting(nodes.toArray(new String[0]));
 	}
 
 }

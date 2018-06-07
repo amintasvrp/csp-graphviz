@@ -17,67 +17,70 @@ public class GraphvizJava implements Plottable {
 	
 	@Override
 	public void ploting(String[] nodes) throws IOException {
-		//JSON with the graph:
-        String arquivoJson = getDiretorioJson();
-        
-        File grafo = new File(arquivoJson);
-        if(!grafo.exists()){
-        	grafo.createNewFile();
-        }
-              
-        // Iterating over the list of processes, generating the nodes:
-		BufferedWriter buffWrite = new BufferedWriter(new FileWriter(arquivoJson));
-		
-		buffWrite.append("{   \"nodes\":[" + "\n");
-		
-		int penultimateIndex = nodes.length - 2;
-		int lastIndex = nodes.length - 1;
-		
-		for (int i = 0; i < lastIndex; i++) {
-			nodes[i] = destacarSkipStop(nodes[i]);
-			buffWrite.append("    {\"name\":\"" + nodes[i] + "\",\"id\":\""+ nodes[i] + i +"\"}," + "\n");
+		if(nodes.length != 0) {
+			//JSON with the graph:
+	        String arquivoJson = getDiretorioJson();
+	        
+	        File grafo = new File(arquivoJson);
+	        if(!grafo.exists()){
+	        	grafo.createNewFile();
+	        }
+	              
+	        // Iterating over the list of processes, generating the nodes:
+			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(arquivoJson));
+			
+			buffWrite.append("{   \"nodes\":[" + "\n");
+			
+			int lastIndex = nodes.length - 1;
+			
+			for (int i = 0; i < lastIndex; i++) {
+				nodes[i] = destacarSkipStop(nodes[i]);
+				buffWrite.append("    {\"name\":\"" + nodes[i] + "\",\"id\":\""+ nodes[i] + i +"\"}," + "\n");
+			}
+			
+			nodes[lastIndex] = destacarSkipStop(nodes[lastIndex]);
+			String lastNode = nodes[lastIndex];
+			
+			if (lastNode.equals("SKIP")) {
+				buffWrite.append("    {\"name\":\"" + "SKIP" + "\",\"id\":\""+ "SKIP" + lastIndex +"\"}," + "\n");
+				buffWrite.append("    {\"name\":\"" + "STOP" + "\",\"id\":\""+ "STOP" + lastIndex +"\"}" + "\n");
+				buffWrite.append("    ]," + "\n");
+			} else if (!lastNode.equals("STOP")) {
+				buffWrite.append("    {\"name\":\"" + lastNode + "\",\"id\":\""+ lastNode + lastIndex +"\"}," + "\n");
+				buffWrite.append("    {\"name\":\"" + "ENDLINE" + "\",\"id\":\""+ "ENDLINE" + lastIndex +"\"}" + "\n");
+				buffWrite.append("    ]," + "\n");
+			} else {
+				buffWrite.append("    {\"name\":\"" + "STOP" + "\",\"id\":\""+ "STOP" + lastIndex +"\"}" + "\n");
+				buffWrite.append("    ]," + "\n");
+			}
+			
+			// Iterating over the list of processes, generating edges:		
+			buffWrite.append("    \"links\":[" + "\n");
+			
+			buffWrite.append("    {\"source\":\"" + nodes[0] + 0 + "\",");
+			
+			for (int actualIndex = 1; actualIndex < lastIndex; actualIndex++) {
+				buffWrite.append("\"target\":\"" + nodes[actualIndex] + actualIndex + "\"},"+ "\n");
+				buffWrite.append("    {\"source\":\"" + nodes[actualIndex] + actualIndex + "\",");
+			}
+			
+			if (lastNode.equals("SKIP")) {
+				buffWrite.append("\"target\":\"" + lastNode + lastIndex + "\"},"+ "\n");
+				buffWrite.append("    {\"source\":\"" + "SKIP" + lastIndex + "\",\"target\":\"" + "STOP" + lastIndex + "\"}"+ "\n");
+			} else if (!lastNode.equals("STOP")) {
+				if(lastIndex != 0) {
+					buffWrite.append("\"target\":\"" + lastNode + lastIndex + "\"},"+ "\n");
+					buffWrite.append("    {\"source\":\"" + lastNode + lastIndex + "\",");
+				}				
+				buffWrite.append("\"target\":\"" + "ENDLINE" + lastIndex + "\"}"+ "\n");
+			} else {
+				buffWrite.append("\"target\":\"" + lastNode + lastIndex + "\"}"+ "\n");
+			}
+			
+			buffWrite.append("    ]"+"\n");
+			buffWrite.append("}");
+			buffWrite.close();
 		}
-		
-		nodes[lastIndex] = destacarSkipStop(nodes[lastIndex]);
-		String lastNode = nodes[lastIndex];
-		
-		if (lastNode.equals("SKIP")) {
-			buffWrite.append("    {\"name\":\"" + "SKIP" + "\",\"id\":\""+ "SKIP" + lastIndex +"\"}," + "\n");
-			buffWrite.append("    {\"name\":\"" + "STOP" + "\",\"id\":\""+ "STOP" + lastIndex +"\"}" + "\n");
-			buffWrite.append("    ]," + "\n");
-		} else if (!lastNode.equals("STOP")) {
-			buffWrite.append("    {\"name\":\"" + lastNode + "\",\"id\":\""+ lastNode + lastIndex +"\"}," + "\n");
-			buffWrite.append("    {\"name\":\"" + "ENDLINE" + "\",\"id\":\""+ "ENDLINE" + lastIndex +"\"}" + "\n");
-			buffWrite.append("    ]," + "\n");
-		} else {
-			buffWrite.append("    {\"name\":\"" + "STOP" + "\",\"id\":\""+ "STOP" + lastIndex +"\"}" + "\n");
-			buffWrite.append("    ]," + "\n");
-		}
-		
-		// Iterating over the list of processes, generating edges:		
-		buffWrite.append("    \"links\":[" + "\n");
-		
-		for (int i = 0; i < penultimateIndex; i++) {
-			int actualIndex = i;
-			int nextIndex = i + 1;
-			buffWrite.append("    {\"source\":\"" + nodes[actualIndex] + actualIndex + "\",\"target\":\"" + nodes[nextIndex] + nextIndex + "\"},"+ "\n");
-		}
-		
-		String penultimateNode = nodes[penultimateIndex];
-		
-		if (lastNode.equals("SKIP")) {
-			buffWrite.append("    {\"source\":\"" + penultimateNode + penultimateIndex + "\",\"target\":\"" + lastNode + lastIndex + "\"},"+ "\n");
-			buffWrite.append("    {\"source\":\"" + "SKIP" + lastIndex + "\",\"target\":\"" + "STOP" + lastIndex + "\"}"+ "\n");
-		} else if (!lastNode.equals("STOP")) {
-			buffWrite.append("    {\"source\":\"" + penultimateNode + penultimateIndex + "\",\"target\":\"" + lastNode + lastIndex + "\"},"+ "\n");
-			buffWrite.append("    {\"source\":\"" + lastNode + lastIndex + "\",\"target\":\"" + "ENDLINE" + lastIndex + "\"}"+ "\n");
-		} else {
-			buffWrite.append("    {\"source\":\"" + penultimateNode + penultimateIndex + "\",\"target\":\"" + lastNode + lastIndex + "\"}"+ "\n");
-		}
-		
-		buffWrite.append("    ]"+"\n");
-		buffWrite.append("}");
-		buffWrite.close();
 		
 	}
 	
@@ -85,9 +88,7 @@ public class GraphvizJava implements Plottable {
 		String result = node;
 		if (node.equalsIgnoreCase("tick")) {
 			result = "SKIP";
-		} else if (node.equalsIgnoreCase("STOP")) {
-			result = "STOP";
-		}
+		} 
 		return result;
 	}
 	
@@ -228,13 +229,7 @@ public class GraphvizJava implements Plottable {
 						"        node.append(\"text\")\r\n" + 
 						"            .attr(\"dy\", -3)\r\n" + 
 						"            .text(function (d) {\r\n" + 
-						"                if (d.name == \"STOP\") {\r\n" + 
-						"                    return \"STOP\";\r\n" + 
-						"                } else if(d.name == \"SKIP\"){\r\n" + 
-						"                    return \"SKIP\";\r\n" + 
-						"                } else {\r\n" + 
-						"                    return \"\";\r\n" + 
-						"                }\r\n" + 
+						"                return \"\";\r\n" + 
 						"            });\r\n" + 
 						"\r\n" + 
 						"        simulation\r\n" + 
@@ -305,5 +300,6 @@ public class GraphvizJava implements Plottable {
 		public void setNomeDoHtml(String nomeDoHtml) {
 			this.nomeDoHtml = nomeDoHtml;
 		}
+		
 
 }
