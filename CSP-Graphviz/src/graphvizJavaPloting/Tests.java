@@ -7,13 +7,13 @@ public class Tests {
 
 	public static void main(String[] args) throws IOException {
 		ArrayList<String> nodes = new ArrayList<>();
-		nodes.add("A");
-		nodes.add("tick");
-		//nodes.add("C");
-		//nodes.add("D");
-		//nodes.add("E");
+		nodes.add("a");
+		//nodes.add("b");
+		//nodes.add("c");
+		//nodes.add("d");
+		//nodes.add("tick");
 		GraphvizJava gv = new GraphvizJava("Outputs", "/pagina.html");
-		gv.ploting(nodes.toArray(new String[0]));
+		gv.ploting(nodes.toArray(new String[0]),false);
 	}
 
 }
