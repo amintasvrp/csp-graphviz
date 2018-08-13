@@ -1,2 +1,2 @@
-# Projeto_CSP
-Integrando CSP com Linguagens de Programação
+# Integrating_CSP
+Repository for the PIBIC 2017-2018 project: Integrating CSP with Programming Languages
