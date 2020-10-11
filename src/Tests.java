@@ -1,5 +1,3 @@
-package graphvizJavaPloting;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,8 +10,8 @@ public class Tests {
 		//nodes.add("c");
 		//nodes.add("d");
 		//nodes.add("tick");
-		GraphvizJava gv = new GraphvizJava("Outputs", "/pagina.html");
-		gv.ploting(nodes.toArray(new String[0]),false);
+		GraphvizPlotter gv = new GraphvizPlotter("Outputs", "/page.html");
+		gv.plot(nodes.toArray(new String[0]),false);
 	}
 
 }
