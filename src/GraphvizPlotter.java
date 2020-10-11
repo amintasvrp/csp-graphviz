@@ -1,34 +1,33 @@
-package graphvizJavaPloting;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class GraphvizJava implements Plottable {
+public class GraphvizPlotter implements Plottable {
 
-	private String diretorioJson;
-	private String nomeDoHtml;
+	private String JSONDirectory;
+	private String HTMLFileName;
 
-	public GraphvizJava(String diretorio, String nomeDoHtml) throws IOException {
-		this.diretorioJson = diretorio + "/counterExampleGraph.json";
-		this.nomeDoHtml = nomeDoHtml;
-		createhtmlpage(diretorio, nomeDoHtml);
+	public GraphvizPlotter(String directory, String HTMLFileName) throws IOException {
+		this.JSONDirectory = directory + "/counter-example-graph.json";
+		this.HTMLFileName = HTMLFileName;
+		createHTMLPage(directory, HTMLFileName);
 	}
 
 	@Override
-	public void ploting(String[] nodes, boolean deadlock) throws IOException {
+	public void plot(String[] nodes, boolean deadlock) throws IOException {
 		if (nodes.length != 0) {
 			// JSON with the graph:
-			String arquivoJson = getDiretorioJson();
+			String JSONFile = getJSONDirectory();
 
-			File grafo = new File(arquivoJson);
-			if (!grafo.exists()) {
-				grafo.createNewFile();
+			File graph = new File(JSONFile);
+			if (!graph.exists()) {
+				graph.createNewFile();
 			}
 
 			// Iterating over the list of processes, generating the nodes:
-			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(arquivoJson));
+			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(JSONFile));
 
 			buffWrite.append("{   \"nodes\":[" + "\n");
 
@@ -39,7 +38,7 @@ public class GraphvizJava implements Plottable {
 						+ currentIndex + "\"}," + "\n");
 			}
 
-			nodes[lastIndex] = trocaTickPorSKIP(nodes[lastIndex]);
+			nodes[lastIndex] = changeTICKWithSKIP(nodes[lastIndex]);
 			String lastNode = nodes[lastIndex];
 
 			if (lastNode.equals("SKIP")) {
@@ -94,7 +93,7 @@ public class GraphvizJava implements Plottable {
 
 	}
 
-	private String trocaTickPorSKIP(String node) {
+	private String changeTICKWithSKIP(String node) {
 		String result = node;
 		if (node.equalsIgnoreCase("tick")) {
 			result = "SKIP";
@@ -102,21 +101,21 @@ public class GraphvizJava implements Plottable {
 		return result;
 	}
 
-	public void createhtmlpage(String directoryName, String fileName) throws IOException {
+	public void createHTMLPage(String directoryName, String fileName) throws IOException {
 		File f = new File(directoryName + fileName);
 		if (!f.exists()) {
 			f.createNewFile();
 			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(f));
 
-			setDiretorioJson(directoryName);
+			setJSONDirectory(directoryName);
 
-			String htmlContent = htmlContent(directoryName); // observar o nome do json no htmlContent();
-			buffWrite.append(htmlContent);
+			String HTMLContent = getHTMLContent();
+			buffWrite.append(HTMLContent);
 			buffWrite.close();
 		}
 	}
 
-	private String htmlContent(String directoryJson) {
+	private String getHTMLContent() {
 		return "<!DOCTYPE html>\r\n" + "<html lang=\"en\">\r\n" + "<head>\r\n" + "    <meta charset=\"utf-8\">\r\n"
 				+ "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\r\n"
 				+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n"
@@ -139,7 +138,7 @@ public class GraphvizJava implements Plottable {
 				+ "        .force(\"link\", d3.forceLink().id(function (d) {return d.id;}).distance(100).strength(1))\r\n"
 				+ "        .force(\"charge\", d3.forceManyBody())\r\n"
 				+ "        .force(\"center\", d3.forceCenter(width / 2, height / 2));\r\n" + "\r\n"
-				+ "    d3.json(\"counterExampleGraph.json\", function (error, graph) {\r\n"
+				+ "    d3.json(\"counter-example-graph.json\", function (error, graph) {\r\n"
 				+ "    if (error) throw error;\r\n" + "    update(graph.links, graph.nodes);\r\n" + "})\r\n"
 				+ "    function update(links, nodes) {\r\n" + "        link = svg.selectAll(\".link\")\r\n"
 				+ "            .data(links)\r\n" + "            .enter()\r\n" + "            .append(\"line\")\r\n"
@@ -202,20 +201,12 @@ public class GraphvizJava implements Plottable {
 				+ "</script>\r\n" + "\r\n" + "</body>\r\n" + "</html>";
 	}
 
-	public String getDiretorioJson() {
-		return diretorioJson;
+	public String getJSONDirectory() {
+		return JSONDirectory;
 	}
 
-	public void setDiretorioJson(String diretorio) {
-		this.diretorioJson = diretorio + "/counterExampleGraph.json";
-	}
-
-	public String getNomeDoHtml() {
-		return nomeDoHtml;
-	}
-
-	public void setNomeDoHtml(String nomeDoHtml) {
-		this.nomeDoHtml = nomeDoHtml;
+	public void setJSONDirectory(String directory) {
+		this.JSONDirectory = directory + "/counter-example-graph.json";
 	}
 
 }
