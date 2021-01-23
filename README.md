@@ -18,10 +18,6 @@ Clone the repository and run the application with a IDE with Java support (Eclip
 ### Prerequisites
 Have Java installed on the machine and use an IDE.
 
-## Built With
-* [Java](https://www.java.com/pt_BR/download/) - The web framework used
-* [D3.js](https://d3js.org/) - Data-Driven Documents
-
 ## Contributing
 Make a pull request and make clear what changes have been made and which bugs persist. Do not introduce bugs, be proactive!
 
