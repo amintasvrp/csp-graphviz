@@ -1,4 +1,13 @@
-# CSP Graphviz
+<h1 align="center">
+    CSP Graphviz
+</h1>
+
+<p align="center">
+  <img alt="D3.js" src="https://img.shields.io/badge/-D3.js-F9A03C?style=for-the-badge&logo=d3.js&logoColor=white" />
+  <img alt="JUnit" src="https://img.shields.io/badge/-JUnit-25A162?style=for-the-badge&logo=java&logoColor=white" />
+</p>
+
+
 Animator for counterexamples generated from deadlock tests. This tests are made by FDR, the CSP refinement checker.
 This application is part of the scientific initiation research _Integrating CSP with Programming Languages_. We can check the final report [here](https://drive.google.com/file/d/11Td0Bn5epJac_N3WQG3cAgN52Oq340Gi/view?usp=sharing).
 
