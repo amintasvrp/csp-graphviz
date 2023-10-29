@@ -28,6 +28,10 @@ As process B indicates leading to a successful terminal state (left side), the v
 
 ![](docs/process-b.png)
 
+Even with the definition of process C presenting deterministic choice (left side), the visualization of failure cases is presented by the animator (right side):
+
+![](docs/process-c.png)
+
 ## Contributing
 
 Make a pull request and make clear what changes have been made and which bugs persist. Do not introduce bugs, be proactive!
